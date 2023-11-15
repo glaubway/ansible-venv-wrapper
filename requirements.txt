@@ -1,0 +1,9 @@
+# Install ansible from pip and collection dependecies
+ansible-core>=2.15.0, == 2.15.*
+ansible>=8.5.0, == 8.5.*
+ansible-lint
+requests
+netaddr
+# In case network_cli connection type
+ansible-pylibssh
+wheel
