@@ -18,6 +18,18 @@ Simple wrapper to launch ansible playbook from python venv
     ./run_playbook.sh -i inventory/<inventory file> <playbook yml file>
     ```
 
+To run another binary installed into venv/bin folder the run_venv_cmd.sh script can be used.
+
+```shell
+./run_venv_cmd.sh <command> [arguments]
+```
+
+Like next:
+
+```shell
+./run_venv_cmd.sh ansible -m debug -a var=hostvars[inventory_hostname] all
+```
+
 ## Requirements
 
 * Debian/RedHat based distro

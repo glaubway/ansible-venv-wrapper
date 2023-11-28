@@ -35,15 +35,17 @@ my $package_manager = {
 chomp (my $work_dir = qx(pwd));
 my $venv_name = "venv";
 my $ansibe_collections_path = "$work_dir/$venv_name/collections";
-my $activate_path = "$work_dir/$venv_name/bin/activate";
-my $pip_path = "$work_dir/$venv_name/bin/pip";
-my $python3_path = "$work_dir/$venv_name/bin/python3";
-my $ansible_playbook_path = "$work_dir/$venv_name/bin/ansible-playbook";
-my $ansible_galaxy_path = "$work_dir/$venv_name/bin/ansible-galaxy";
+my $venv_bin_path = "$work_dir/$venv_name/bin";
+my $activate_path = "$venv_bin_path/activate";
+my $pip_path = "$venv_bin_path/pip";
+my $python3_path = "$venv_bin_path/python3";
+my $ansible_playbook_path = "$venv_bin_path/ansible-playbook";
+my $ansible_galaxy_path = "$venv_bin_path/ansible-galaxy";
 my $vars = {
     activate_path => \$activate_path,
     ansibe_collections_path => \$ansibe_collections_path,
-    ansible_playbook_path => \$ansible_playbook_path
+    ansible_playbook_path => \$ansible_playbook_path,
+    venv_bin_path => \$venv_bin_path
 };
 
 #######################################################################################################################
@@ -62,6 +64,8 @@ my $vars = {
 &install_ansible_dependcies();
 &evaluate_template("$work_dir/run_playbook.sh.tmpl", "$work_dir/run_playbook.sh", $vars);
 &run_cmd("chmod +x $work_dir/run_playbook.sh");
+&evaluate_template("$work_dir/run_venv_cmd.sh.tmpl", "$work_dir/run_venv_cmd.sh", $vars);
+&run_cmd("chmod +x $work_dir/run_venv_cmd.sh");
 say "Virtual environment successfully prepeared.";
 
 #######################################################################################################################
@@ -163,4 +167,8 @@ sub run_cmd_with_sudo {
 sub run_cmd {
     my $cmd = shift;
     system($cmd);
+    if ($?){
+        say "an error occurred while executing: $cmd";
+        exit 1;
+    };
 }

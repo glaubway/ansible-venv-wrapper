@@ -161,3 +161,4 @@ cython_debug/
 
 # Ignore evaluated templates
 run_playbook.sh
+run_venv_cmd.sh
